@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<system>
+    <project configuration="@match" id="project_1664410971" name="CM"/>
+    <core id="Cortex_M4_0" project="project_1664410971"/>
+    <project configuration="@match" id="project_1857119735" name="CPU1"/>
+    <core id="C28xx_CPU1" project="project_1857119735"/>
+    <project configuration="@match" id="project_1452773548" name="CPU2"/>
+    <core id="C28xx_CPU2" project="project_1452773548"/>
+</system>

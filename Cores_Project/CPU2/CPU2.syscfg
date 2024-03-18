@@ -1,0 +1,90 @@
+/**
+ * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
+ * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
+ * @cliArgs --device "F2838x" --package "176pin" --part "F2838x_176pin" --context "CPU2" --product "C2000WARE@5.00.00.00"
+ * @versions {"tool":"1.19.0+3426"}
+ */
+
+/**
+ * Import the modules used in this configuration.
+ */
+const cla            = scripting.addModule("/driverlib/cla.js", {}, false);
+const cla1           = cla.addInstance();
+const device_support = scripting.addModule("/driverlib/device_support.js");
+const ipc            = scripting.addModule("/driverlib/ipc.js");
+const memcfg         = scripting.addModule("/driverlib/memcfg.js");
+const CMD            = scripting.addModule("/utilities/cmd_tool/cmd_syscfg/source/CMD");
+const CMD1           = CMD.addInstance();
+
+/**
+ * Write custom configuration values to the imported modules.
+ */
+cla1.$name = "myCLA0";
+
+ipc.flagHandler31            = "IPC_SYNC";
+ipc.ipcRegisterFlag          = ["IPC_FLAG1","IPC_FLAG31"];
+ipc.enableInterrupt1         = true;
+ipc.registerInterrupts       = ["1"];
+ipc.ipcInt1.enableInterrupt  = true;
+ipc.ipcInt1.interruptHandler = "IPC_CPU1_ISR1";
+
+memcfg.config_MEMCFG_SECT_LS5        = "CLA_data";
+memcfg.config_MEMCFG_SECT_LS6        = "CLA_prog";
+memcfg.config_MEMCFG_SECT_LS7        = "CLA_prog";
+memcfg.init_MEMCFG_SECT_MSGCPUTOCPU1 = true;
+memcfg.init_MEMCFG_SECT_MSGCLA1TOCPU = true;
+memcfg.init_MEMCFG_SECT_MSGCPUTOCLA1 = true;
+memcfg.init_MEMCFG_SECT_MSGCPUTOCPU0 = true;
+
+CMD.activateCMD = true;
+CMD.activeCMD   = "CMD_Config";
+
+CMD1.sectionMemory_binit                   = ["FLASH4"];
+CMD1.sectionAlignEnable_binit              = true;
+CMD1.sectionMemory_stack                   = ["RAMM1"];
+CMD1.$name                                 = "CMD_Config";
+CMD1.sectionRun_text                       = ["RAMLS1","RAMLS2","RAMLS3","RAMLS4"];
+CMD1.sectionMemory_ramfunc                 = ["FLASH3"];
+CMD1.sectionAlignEnable_ramfunc            = true;
+CMD1.sectionMemory_codestart               = "0x080000";
+CMD1.sectionMemory_text                    = ["FLASH1","FLASH2","FLASH3","FLASH4"];
+CMD1.sectionAlignEnable_text               = true;
+CMD1.sectionMemory_cinit                   = ["FLASH4"];
+CMD1.sectionAlignEnable_cinit              = true;
+CMD1.sectionMemory_switch                  = ["FLASH1"];
+CMD1.sectionAlignEnable_switch             = true;
+CMD1.sectionMemory_init_array              = ["FLASH1"];
+CMD1.sectionAlignEnable_init_array         = true;
+CMD1.sectionMemory_const                   = ["FLASH5"];
+CMD1.sectionAlignEnable_const              = true;
+CMD1.sectionAlignEnable_ovly               = true;
+CMD1.sectionRunFromDifferentAddr_ramfunc   = true;
+CMD1.sectionSymbols_ramfunc                = ["loadEnd","loadSize","loadStart","runEnd","runSize","runStart"];
+CMD1.sectionBinit_ramfunc                  = false;
+CMD1.sectionMemory_ovly                    = ["FLASH0"];
+CMD1.sectionMemory_bss                     = ["RAMLS0_4"];
+CMD1.sectionMemory_data                    = ["RAMLS0_4"];
+CMD1.sectionMemory_sysmem                  = ["RAMLS0_4"];
+CMD1.sectionMemory_cla1Prog                = ["FLASH13"];
+CMD1.sectionRunFromDifferentAddr_cla1Prog  = true;
+CMD1.sectionRun_cla1Prog                   = ["RAMLS6_7"];
+CMD1.sectionBinit_cla1Prog                 = false;
+CMD1.sectionAlignEnable_cla1Prog           = true;
+CMD1.sectionMemory_claConst                = ["FLASH13"];
+CMD1.sectionRunFromDifferentAddr_claConst  = true;
+CMD1.sectionAlignEnable_claConst           = true;
+CMD1.sectionRun_claConst                   = ["RAMLS5"];
+CMD1.sectionMemory_claScratchpad           = ["RAMLS5"];
+CMD1.sectionMemory_bssCla                  = ["RAMLS5"];
+CMD1.sectionMemory_cla1ToCpuMsgRAM         = ["CLATOCPU_MSGRAM"];
+CMD1.sectionMemory_cpuToCla1MsgRAM         = ["CPUTOCLA_MSGRAM"];
+CMD1.sectionRun_ramfunc                    = ["RAMLS0_4"];
+CMD1.RAMLSmemoryCombination.create(2);
+CMD1.RAMLSmemoryCombination[0].$name       = "RAMLS0_4";
+CMD1.RAMLSmemoryCombination[0].combination = ["RAMLS0","RAMLS1","RAMLS2","RAMLS3","RAMLS4"];
+CMD1.RAMLSmemoryCombination[1].$name       = "RAMLS6_7";
+CMD1.RAMLSmemoryCombination[1].combination = ["RAMLS6","RAMLS7"];
+CMD1.userSection.create(1);
+CMD1.userSection[0].$name                  = "cla_memory_cpu_init_mem";
+CMD1.userSection[0].sectionName            = "cla_memory_cpu_init";
+CMD1.userSection[0].sectionMemory          = ["RAMLS5"];
